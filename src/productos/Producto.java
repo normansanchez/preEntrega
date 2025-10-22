@@ -1,61 +1,45 @@
 package productos;
-// ============================================================================
-// Clase abstracta Producto (SUPERCLASE)
-// ----------------------------------------------------------------------------
-// - No se instancia directamente (abstract).
-// - Contiene atributos y comportamiento común a Articulo y Servicio.
-// - Implementa Vendible para obligar a definir calcularDescuento() en hijas.
-// porque elegir una clase abstracta en lugar de una interfaz?
-//   - Porque tiene atributos y comportamiento común.
-//   - Porque queremos compartir código entre las clases hijas.
-//   - Porque queremos definir un contrato (Vendible) y compartir código.
-// porque no usamos protected?
-//   - Por que queremos encapsular los atributos y forzar el uso de getters/setters.
-//  - Por que queremos controlar el acceso a los atributos.
-// que pasa si usamos protected?
-//   - Que las clases hijas pueden acceder directamente a los atributos.
-//   - Que se rompe el encapsulamiento.
-//   - Que no podemos controlar el acceso a los atributos.
-// ============================================================================
-public abstract class Producto implements Vendible {
 
-    private int id;              // Identidad única
-    private String nombre;       // Nombre legible
-    private double precio;       // Precio base sin descuento
+public abstract class Producto implements Vendible, interfaces.Identificable {
 
-    private static int contador = 1; // Contador compartido entre instancias
+    private int id;              //Identificador del Producto
+    private String nombre;       //Nombre del producto
+    private double precio;       //Precio del producto
+
+    /* Este contador permitirá crear identificadores únicos para cada instancia de Producto */
+    private static int contador = 1; 
 
     public Producto(String nombre, double precio) { // Constructor
-        this.id = contador++;       // Asignación de id autoincremental
+        this.id = contador++;       // Definimos un id para la instancia a crear e incrementados el contador
         this.nombre = nombre;       // Guardamos nombre
         this.precio = precio;       // Guardamos precio
     }
 
-    public int getId() {            // Getter id
+    public int getId(){
         return id;
     }
 
-    public String getNombre() {     // Getter nombre
+    public String getNombre(){
         return nombre;
     }
 
-    public void setNombre(String nombre) { // Setter nombre
+    public void setNombre(String nombre){
         this.nombre = nombre;
     }
 
-    public double getPrecio() {     // Getter precio
+    public double getPrecio(){
         return precio;
     }
 
-    public void setPrecio(double precio) { // Setter precio
+    public void setPrecio(double precio){
         this.precio = precio;
     }
 
-   /*  public  double calcularDescuento(){
-        return precio * 0.95;
-    };*/
-    public abstract double calcularDescuento(); // Contrato a implementar en hijas
-   // public abstract String mostrarDatos(); // Contrato a implementar en hijas
+    /* Esta función deberá ser definida por todas las clases hijas de Producto pues heredaran
+     * tambien la implementación de la interfaz Vendible
+     */
+    public abstract double calcularDescuento(); 
+
     @Override
     public String toString() {      // Representación legible
         return "Producto{id=" + id + ", nombre='" + nombre + "', precio=" + precio + "}";
