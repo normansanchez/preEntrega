@@ -50,13 +50,13 @@ public class CrudCategorias extends CrudConsola<Categoria> {
 
     @Override
     public void eliminar() {
-        Categoria aEliminar = null;
-        aEliminar = buscarElemento("Categorias", categorias);
+        Categoria aEliminar = buscarElemento("Categorias", categorias);
 
         if(aEliminar !=null){
             try {
                 borraCategoria(aEliminar);
-            } catch (borrarCategoriaReferenciada e) {
+            }catch (borrarCategoriaReferenciada e) {
+                e.getMessage();
                 String opcion = leerTexto("Desea continuar (s/n): ");
                 if(opcion.equals("s")){
                     for(Producto p : productos){
@@ -69,12 +69,14 @@ public class CrudCategorias extends CrudConsola<Categoria> {
                     }
                 }
             }
+            boolean eliminado = categorias.removeIf(c -> c.getId() == aEliminar.getId());
+            System.out.println(eliminado ? "\nCategoría eliminada." : "\nNo existía ese id.");
         }
-        
-        int id = leerEntero("\nId de la categoría a eliminar: ");
-        boolean eliminado = categorias.removeIf(c -> c.getId() == id);
-        System.out.println(eliminado ? "\nCategoría eliminada." : "\nNo existía ese id.");
     }
+        
+    //     int id = leerEntero("\nId de la categoría a eliminar: ");
+    //     boolean eliminado = categorias.removeIf(c -> c.getId() == id);
+    //     System.out.println(eliminado ? "\nCategoría eliminada." : "\nNo existía ese id.");
 
     public void borraCategoria(Categoria cat) throws excepciones.borrarCategoriaReferenciada{
         if(cat.isEstaReferenciada()){
